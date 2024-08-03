@@ -3,25 +3,30 @@ const authMiddleware = require('../middleware/authMiddleware.js');
 
 const {
     sellerRegister,
-    sellerLogIn
-} = require('../controllers/orderController.js');
+    sellerLogIn,
+} = require('../controllers/sellerController.js');
+// ERROR
+// getOrderedProductsByCustomer is not a part of sellerController.js
+// removed and added below
 
 const {
     productCreate,
     getProducts,
-    getProductDetail,
-    searchProductbyCategory,
     getSellerProducts,
+    getProductDetail,
     updateProduct,
+    addReview,
+    searchProduct,
+    searchProductbyCategory,
+    searchProductbySubCategory,
     deleteProduct,
     deleteProducts,
     deleteProductReview,
     deleteAllProductReviews,
-    addReview,
     getInterestedCustomers,
     getAddedToCartProducts,
 } = require('../controllers/productController.js');
-
+// added all functions (some were not there)
 const {
     customerRegister,
     customerLogIn,
@@ -31,7 +36,10 @@ const {
 
 const {
     newOrder,
-    getOrderedProductsBySeller
+    getOrderedProductsBySeller,
+    getOrderedProductsByCustomer
+    // ERROR - change made
+    // moved getOrderedProductsByCustomer to here
 } = require('../controllers/orderController.js');
 
 
@@ -67,5 +75,8 @@ router.put('/CustomerUpdate/:id', cartUpdate);
 
 // Order
 router.post('/newOrder', newOrder);
-router.get('/getOrderedProductsByCustomer/:id', getOrderedProductsBySeller);
+router.get('/getOrderedProductsByCustomer/:id', getOrderedProductsByCustomer);
+// ERROR
+// fetching from getOrderedProductsBySeller
+// changed to getOrderedProductsByCustomer
 router.get('/getOrderedProductsBySeller/:id', getOrderedProductsBySeller);
