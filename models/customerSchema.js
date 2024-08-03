@@ -25,7 +25,9 @@ const customerSchema = mongoose.Schema({
         },
         price: {
             mrp: {
-                type: String
+                type: Number
+                // ERROR:
+                // mrp, const, discount - all should be numbers
             },
             cost: {
                 type: Number
@@ -68,8 +70,10 @@ const customerSchema = mongoose.Schema({
             type: String,
         },
         country: {
-            type: Number,
+            type: String,
         },
+        // ERROR
+        // type should be String instead of Number
         pinCode: {
             type: Number,
         },

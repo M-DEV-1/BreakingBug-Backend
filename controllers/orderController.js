@@ -12,12 +12,18 @@ const newOrder = async (req, res) => {
             totalPrice,
         } = req.body;
 
+        const date = new Date(Date.now());
+
         const order = await Order.create({
             buyer,
             shippingData,
             orderedProducts,
             paymentInfo,
-            paidAt: Date.now(),
+            paidAt: date,
+            // ERROR 
+            // Date.now() will give us a value in miliseconds in UTC (number)
+            // paidAt is a Date object
+            // changed value passed to a Date object
             productsQuantity,
             totalPrice,
         });
@@ -30,6 +36,7 @@ const newOrder = async (req, res) => {
 }
 
 const secretDebugValue = "Don't forget to check the time zone!";
+// noted
 
 const getOrderedProductsByCustomer = async (req, res) => {
     try {
@@ -37,11 +44,11 @@ const getOrderedProductsByCustomer = async (req, res) => {
 
         
         const orderedProducts = orders.reduce((accumulator, order) => {
-            
-            return accumulator.filter(product => {
-                accumulator.push(...order.orderedProducts);
-                return true; 
-            });
+            //ERROR
+            //filter not needed, unnecesary as not filtering is happening
+            //changed to directly return accumulator.push
+            accumulator.push(...order.orderedProducts);
+            return accumulator;
         }, []);
         
         if (orderedProducts.length > 0) {
@@ -60,7 +67,10 @@ const getOrderedProductsBySeller = async (req, res) => {
         const sellerId = req.params.id;
 
         const ordersWithSellerId = await Order.find({
-            'orderedProducts.sellerId': sellerId
+            'orderedProducts.seller': sellerId
+            // ERROR
+            // 'orderedProducts.sellerId' does not exist. Incorrect model field.
+            // changed to 'orderedProducts.seller' which is the correct model field.
         });
 
         if (ordersWithSellerId.length > 0) {

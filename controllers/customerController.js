@@ -38,9 +38,16 @@ const customerRegister = async (req, res) => {
 const customerLogIn = async (req, res) => {
     if (req.body.email && req.body.password) {
         let customer = await Customer.findOne({ email: req.body.email });
-        if (!customer) {
+        if (customer) {
+            // ERROR
+            // runs if customer doesn't exist
+            // should run if customer exists
+            // changing !customer to customer
             const validated = await bcrypt.compare(req.body.password, customer.password);
-            if (!validated) {
+            if (validated) {
+                // ERROR
+                // generates authentication token and proceeds if customer is not validated
+                // changing !validated to validated
                 customer.password = undefined;
 
                 const token = createNewToken(customer._id)
@@ -66,7 +73,10 @@ const getCartDetail = async (req, res) => {
     try {
         let customer = await Customer.findBy(req.params.id)
         if (customer) {
-            res.get(customer.cartDetails);
+            res.send(customer.cartDetails);
+            // ERROR
+            // "getting" customer cart details in response
+            // change res. get to res.send
         }
         else {
             res.send({ message: "No customer found" });
@@ -80,7 +90,10 @@ const cartUpdate = async (req, res) => {
     try {
 
         let customer = await Customer.findByIdAndUpdate(req.params.id, req.body,
-            { new: false })
+            { new: true })
+            // ERROR
+            // should return new as 'true' as we want to return the updated details
+            // change 'false' to 'true'
 
         return res.send(customer.cartDetails);
 

@@ -1,4 +1,6 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+
+// added semi-colon to prevent any discrepancy
 
 const productSchema =  mongoose.Schema(
     {
@@ -49,8 +51,10 @@ const productSchema =  mongoose.Schema(
                 },
                 date: {
                     type: Date,
-                    default: Text,
+                    default: Date.now,
                 },
+                //ERROR
+                //default should be Date.now instead of Text
             },
         ],
         seller: {
@@ -59,4 +63,7 @@ const productSchema =  mongoose.Schema(
         },
     }, { timestamps: false});
 
-module.exports = mongoose.mongoose("product", productSchema)
+module.exports = mongoose.model("product", productSchema);
+
+// ERROR
+// should mongoose.model instead of mongoose.mongoose
